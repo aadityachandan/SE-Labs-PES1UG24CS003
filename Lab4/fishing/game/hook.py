@@ -1,8 +1,8 @@
 """
 Hook: the player's fishing hook. Moves only vertically, at a fixed
-horizontal position. In the starter, it casts and retracts on its own,
-in a continuous loop, with no player input at all - Task 3 changes
-this to be player-controlled.
+horizontal position. A cast is started by the player (via the engine);
+the hook then travels down and returns on its own, and a new cast
+cannot interrupt one that is already in progress.
 """
 
 import pygame
@@ -24,8 +24,13 @@ class Hook:
         self.state = IDLE
 
     def start_cast(self):
+        """Begin a cast. Only works when idle; returns True if a cast
+        started, False if one is already in progress."""
+        if self.state != IDLE:
+            return False
         self.state = CASTING
         self.y = self.surface_y
+        return True
 
     def update(self):
         if self.state == CASTING:

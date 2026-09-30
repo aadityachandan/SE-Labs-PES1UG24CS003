@@ -2,9 +2,9 @@
 GameEngine: owns the hook and the fish, and runs one frame's worth of
 game logic.
 
-Current version: the hook still casts and retracts automatically in a
-continuous loop (player control is Task 3), there are now several fish
-types (Task 2), and there's no round timer yet (Task 4).
+Current version: the player controls casting with a key press (Task 3),
+there are several fish types (Task 2), and there's no round timer yet
+(Task 4).
 """
 
 from game.hook import Hook, IDLE
@@ -27,10 +27,13 @@ class GameEngine:
         self.hooked_fish = None
         self.score = 0
 
-    def update(self):
+    def cast(self):
+        """Player pressed the cast key. Starts a cast only if the hook is
+        idle; ignored while a cast is already in progress."""
         if self.hook.state == IDLE:
             self.hook.start_cast()
 
+    def update(self):
         self.hook.update()
 
         for fish in self.fish_list:
@@ -69,3 +72,5 @@ class GameEngine:
             draw_list.append(self.hooked_fish)
         renderer.draw_scene(surface, self.hook, draw_list)
         renderer.draw_text(surface, font, f"Score: {self.score}", (10, 10))
+        if self.hook.state == IDLE:
+            renderer.draw_text(surface, font, "Press SPACE to cast", (10, HEIGHT - 30))

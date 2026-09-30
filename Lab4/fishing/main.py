@@ -2,6 +2,7 @@
 Fishing Game (Lab Starter)
 
 Run with:  python3 main.py
+Controls:  SPACE = cast the hook
 """
 
 import pygame
@@ -23,6 +24,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                engine.cast()
 
         engine.update()
         engine.draw(screen, font)
