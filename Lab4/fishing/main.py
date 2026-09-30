@@ -2,7 +2,7 @@
 Fishing Game (Lab Starter)
 
 Run with:  python3 main.py
-Controls:  SPACE = cast the hook
+Controls:  SPACE = cast the hook, R = restart after the round ends
 """
 
 import pygame
@@ -21,13 +21,17 @@ def main():
     engine = GameEngine()
     running = True
     while running:
+        dt = min(clock.get_time() / 1000.0, 0.1)  # seconds since last frame
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                engine.cast()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    engine.cast()
+                elif event.key == pygame.K_r and engine.game_over:
+                    engine.reset()
 
-        engine.update()
+        engine.update(dt)
         engine.draw(screen, font)
 
         pygame.display.flip()

@@ -35,7 +35,15 @@ def draw_text(surface, font, text, pos, color=COLOR_TEXT):
     surface.blit(font.render(text, True, color), pos)
 
 
-def draw_banner(surface, font, text):
+def draw_overlay(surface, alpha=150):
+    """Darken the whole screen (used behind the end-of-round banner)."""
+    overlay = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+    overlay.fill((0, 0, 0, alpha))
+    surface.blit(overlay, (0, 0))
+
+
+def draw_banner(surface, font, text, y_offset=0):
     surf = font.render(text, True, (255, 220, 80))
-    rect = surf.get_rect(center=(surface.get_width() // 2, surface.get_height() // 2))
+    rect = surf.get_rect(center=(surface.get_width() // 2,
+                                 surface.get_height() // 2 + y_offset))
     surface.blit(surf, rect)
