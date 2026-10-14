@@ -6,6 +6,7 @@ from datetime import datetime
 VALID_STATUSES = ["placed", "cooking", "out_for_delivery", "delivered"]
 DEFAULT_MENU = {"pizza": 250, "burger": 150, "fries": 90, "coke": 40}
 
+
 class OrderQueue:
     """Keeps track of food delivery orders."""
 
@@ -32,7 +33,8 @@ class OrderQueue:
         total = 0
         for item in items:
             if item not in self.menu:
-                raise ValueError(f"Unknown dish: {item}. Choose from: {list(self.menu)}")
+                raise ValueError(
+                    f"Unknown dish: {item}. Choose from: {list(self.menu)}")
             total += self.menu[item]
         order_id = self.next_id
         self.orders[order_id] = {
@@ -79,6 +81,7 @@ class OrderQueue:
             print(order_id, order["customer"], order["status"],
                   order["total"])
 
+
 def main():
     """Run a small demo of the order queue."""
     queue = OrderQueue()
@@ -105,6 +108,7 @@ def main():
     queue.backup_orders()
     queue.restore_orders()
     queue.print_queue()
+
 
 if __name__ == "__main__":
     main()
